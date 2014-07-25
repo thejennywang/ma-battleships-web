@@ -9,7 +9,6 @@ class BattleShips < Sinatra::Base
 	GAME = Game.new
 
 	get '/' do
-		puts GAME.players.inspect
 		erb :index
 	end
 
@@ -20,21 +19,12 @@ class BattleShips < Sinatra::Base
 	post '/waiting_room' do
 		session[:player] = Player.new(:name => params[:name], :board => Board.new)
 		GAME.add session[:player]
-
-		puts 'post waiting room'
-		puts GAME.start?
-
 		redirect '/place_ships' if GAME.start?
-
 		erb :waiting_room
 	end
 
 	get '/waiting_room' do
 		redirect '/place_ships' if GAME.start?
-
-		puts 'gets waiting room'
-		puts GAME.start?
-
 		erb :waiting_room
 	end
 
